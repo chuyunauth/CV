@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的简历 - Resume</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 顶部导航栏 */
+    .header {
+      background: linear-gradient(135deg, #1a73e8, #0d47a1);
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .header .subtitle {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-download {
+      background: #fff;
+      color: #1a73e8;
+    }
+
+    .btn-download:hover {
+      background: #e8f0fe;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.6);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: #fff;
+    }
+
+    /* 主区域 - PDF 查看器 */
+    .pdf-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .pdf-wrapper {
+      width: 100%;
+      max-width: 1000px;
+      flex: 1;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pdf-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #fafafa;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .pdf-toolbar .page-info {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .pdf-toolbar .zoom-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pdf-toolbar .zoom-controls button {
+      background: #f0f0f0;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+      transition: all 0.2s;
+    }
+
+    .pdf-toolbar .zoom-controls button:hover {
+      background: #e0e0e0;
+    }
+
+    .pdf-viewer {
+      flex: 1;
+      min-height: 70vh;
+      background: #e8e8e8;
+    }
+
+    .pdf-viewer embed,
+    .pdf-viewer iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 70vh;
+      border: none;
+      display: block;
+    }
+
+    /* 底部 */
+    .footer {
+      text-align: center;
+      padding: 16px 24px;
+      font-size: 13px;
+      color: #999;
+      border-top: 1px solid #e8e8e8;
+      background: #fff;
+    }
+
+    .footer a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+
+    /* 加载提示 */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      font-size: 16px;
+      color: #999;
+    }
+
+    .loading::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      margin-left: 12px;
+      border: 3px solid #e0e0e0;
+      border-top-color: #1a73e8;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .header {
+        padding: 12px 16px;
+      }
+      .header h1 {
+        font-size: 17px;
+      }
+      .header .subtitle {
+        display: none;
+      }
+      .pdf-container {
+        padding: 10px;
+      }
+      .pdf-wrapper {
+        border-radius: 8px;
+      }
+      .btn {
+        padding: 6px 14px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-actions .btn span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部导航 -->
+  <header class="header">
+    <div>
+      <h1>📄 我的简历</h1>
+      <span class="subtitle">个人简历 · 在线查看</span>
+    </div>
+    <div class="header-actions">
+      <a href="resume.pdf" class="btn btn-download" download="简历.pdf">
+        ⬇️ <span>下载 PDF</span>
+      </a>
+      <button class="btn btn-outline" onclick="window.print()">
+        🖨️ <span>打印</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- PDF 查看区域 -->
+  <main class="pdf-container">
+    <div class="pdf-wrapper">
+      <div class="pdf-toolbar">
+        <span class="page-info">📄 简历文件</span>
+        <div class="zoom-controls">
+          <button onclick="zoomOut()" title="缩小">−</button>
+          <button onclick="zoomIn()" title="放大">+</button>
+          <button onclick="zoomReset()" title="适应页面">⊡</button>
+        </div>
+      </div>
+      <div class="pdf-viewer" id="pdfViewer">
+        <div class="loading">加载简历中...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    <p>
+      由 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> 提供托管 ·
+      最后更新：2026年5月
+    </p>
+  </footer>
+
+  <script>
+    // 嵌入 PDF 查看器
+    const viewer = document.getElementById('pdfViewer');
+
+    function loadPDF() {
+      const iframe = document.createElement('iframe');
+      iframe.src = 'resume.pdf#toolbar=0&navpanes=0&scrollbar=1';
+      iframe.title = '简历 PDF 查看器';
+      iframe.onload = () => {
+        viewer.querySelector('.loading')?.remove();
+      };
+      viewer.innerHTML = '';
+      viewer.appendChild(iframe);
+    }
+
+    // 缩放功能 (通过改变 iframe 的缩放)
+    let scale = 1.0;
+
+    function zoomIn() {
+      scale = Math.min(scale + 0.1, 2.0);
+      applyZoom();
+    }
+
+    function zoomOut() {
+      scale = Math.max(scale - 0.1, 0.5);
+      applyZoom();
+    }
+
+    function zoomReset() {
+      scale = 1.0;
+      applyZoom();
+    }
+
+    function applyZoom() {
+      const iframe = viewer.querySelector('iframe');
+      if (iframe) {
+        iframe.style.transform = `scale(${scale})`;
+        iframe.style.transformOrigin = 'top center';
+        // 调整高度以适应缩放
+        iframe.style.height = `${100 / scale}vh`;
+      }
+    }
+
+    // 页面加载完成后加载 PDF
+    document.addEventListener('DOMContentLoaded', loadPDF);
+  </script>
+</body>
+</html>
